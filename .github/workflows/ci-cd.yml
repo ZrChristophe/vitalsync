@@ -55,11 +55,11 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/vitalsync-backend:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner | toLower }}/vitalsync-backend:${{ github.sha }}
 
       - name: Build & push frontend Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/vitalsync-frontend:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner | toLower }}/vitalsync-frontend:${{ github.sha }}
