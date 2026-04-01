@@ -3,30 +3,45 @@ version: "3.9"
 services:
   db:
     image: postgres:15-alpine
+    container_name: vitalsync-db
     environment:
-      POSTGRES_DB: vitalsync
-      POSTGRES_USER: vitalsync
-      POSTGRES_PASSWORD: vitalsync_secret
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data  # Volume persistant pour conserver les données même si le conteneur est supprimé
     ports:
       - "5432:5432"
+    networks:
+      - vitalsync-network
 
   backend:
     build: ./backend
+    container_name: vitalsync-backend
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://vitalsync:vitalsync_secret@db:5432/vitalsync
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
+    networks:
+      - vitalsync-network
 
   frontend:
     build: ./frontend
+    container_name: vitalsync-frontend
     ports:
       - "80:80"
     depends_on:
       - backend
+    networks:
+      - vitalsync-network
 
+# Réseau personnalisé pour isoler le projet
+networks:
+  vitalsync-network:
+    driver: bridge  # Isolation entre projets et communication interne via noms de service
+
+# Volume persistant pour PostgreSQL
 volumes:
-  pgdata:
+  pgdata:  # Sans ce volume, toutes les données seraient perdues lors d'un docker-compose down

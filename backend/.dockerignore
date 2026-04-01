@@ -1,0 +1,15 @@
+# Ne pas inclure les modules Node.js déjà installés localement
+node_modules
+
+# Logs et fichiers temporaires
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+*.log
+
+# Fichiers de configuration locaux
+.env
+
+# Dossiers ou fichiers inutiles pour la production
+test/
+*.swp
