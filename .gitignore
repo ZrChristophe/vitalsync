@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Build output (frontend)
+build/
+dist/
+
+# Docker
+*.dockerfile
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / editor files
+.vscode/
+.idea/
